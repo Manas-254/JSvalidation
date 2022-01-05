@@ -60,6 +60,22 @@ const validatePwd=()=>{
         }
         return false; 
 };
+    const [cpwdError, setcpwdError] = useState("")
+const validateConfirmPwd=()=>{
+    if(userData.confirmPassword)
+    {
+        if(userData.confirmPassword===userData.password)
+        {
+            setcpwdError("");
+            return true
+        }
+        else{
+            setcpwdError("password and confirm password does not match")
+        }
+    }else{
+        setcpwdError("please enter confirm password");
+    }return false
+};
 
 let updateUserData=(event)=>{
     // event.preventDefault();
@@ -71,18 +87,19 @@ let updateUserData=(event)=>{
 
 
 let saveData=(event)=>{
-  
-    validateEmail();
+   validateEmail();
     validateName();
     validatePwd();
-    if(validateEmail()&& validateName() && validatePwd()){
-        props.getUserData(userData)
+    validateConfirmPwd();
+    if(validateEmail()&& validateName() && validatePwd() && validateConfirmPwd()){
+       
         // event.preventDefault();
         //clearing the form
         setuserData({
             email:'',
             Name:'',
-            password:''
+            password:'',
+            confirmPassword:''
         });
     }
    
@@ -129,6 +146,17 @@ let saveData=(event)=>{
                     onChange={(event)=>{updateUserData(event)}}
                     />
                 {pwdError&&<div className="errMsg">{pwdError}</div>}
+                </div>
+                  <div className="mb-3">
+                    <input
+                    name="confirmPassword"
+                    type="password"
+                    className="form-control"
+                    placeholder="Enter confirm Password"
+                    value={userData.confirmPassword}
+                    onChange={(event)=>{updateUserData(event)}}
+                    />
+                {cpwdError&&<div className="errMsg">{cpwdError}</div>}
                 </div>
                 <button type="submit" className="btn btn-primary" onClick={saveData}>SignUp</button>
             </div>
