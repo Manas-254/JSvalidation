@@ -7,7 +7,8 @@ function SignUp(props) {
     const [userData, setuserData] = useState({
         email:'',
         Name:'',
-        password:''
+        password:'',
+        confirmPassword:''
 })
 
 const [emailError, setemailError] = useState("")
